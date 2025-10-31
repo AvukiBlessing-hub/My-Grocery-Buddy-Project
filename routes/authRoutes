@@ -1,0 +1,118 @@
+const express = require("express");
+const router = express.Router();
+const passport = require("passport");
+const User = require("../models/userModel");
+const { isAuthenticated } = require("../middleware/auth");
+
+// Landing page
+router.get("/", (req, res) => {
+  res.render("index", { title: "Grocery App - Home" });
+});
+
+// Signup
+router.get("/signup", (req, res) => {
+  res.render("signup", { 
+    title: "Create Account",
+    error_msg: req.flash('error') || [],
+    success_msg: req.flash('success') || []
+  });
+});
+
+router.post("/signup", async (req, res) => {
+  const { username, email, password, confirmPassword } = req.body;
+  
+  if (!username || !email || !password || !confirmPassword) {
+    req.flash("error", "All fields are required");
+    return res.redirect("/signup");
+  }
+  
+  if (password !== confirmPassword) {
+    req.flash("error", "Passwords do not match");
+    return res.redirect("/signup");
+  }
+
+  try {
+    const existingUser = await User.findOne({ 
+      $or: [{ email }, { username }] 
+    });
+    if (existingUser) {
+      req.flash("error", "Email or username already registered");
+      return res.redirect("/signup");
+    }
+
+    const newUser = new User({ username, email });
+    await User.register(newUser, password);
+    console.log(" New user created:", newUser.username);
+
+    req.flash("success", "Registration successful! Please log in.");
+    res.redirect("/login");
+  } catch (err) {
+    console.error(" Error registering user:", err);
+    req.flash("error", err.message);
+    res.redirect("/signup");
+  }
+});
+
+// Login
+router.get("/login", (req, res) => {
+  res.render("login", { 
+    title: "Login",
+    error_msg: req.flash('error') || [],
+    success_msg: req.flash('success') || []
+  });
+});
+
+router.post("/login", (req, res, next) => {
+  console.log(" Login attempt:", req.body.username);
+  
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      console.error(" Login error:", err);
+      return next(err);
+    }
+    
+    if (!user) {
+      console.log(" Authentication failed:", info.message);
+      req.flash("error", info.message || "Invalid credentials");
+      return res.redirect("/login");
+    }
+    
+    req.logIn(user, (err) => {
+      if (err) {
+        console.error(" Login session error:", err);
+        return next(err);
+      }
+      
+      console.log(" Login successful:", user.username);
+      return res.redirect("/dashboard");
+    });
+  })(req, res, next);
+});
+
+// Logout
+router.get("/logout", (req, res, next) => {
+  req.logout((err) => {
+    if (err) return next(err);
+    req.session.destroy(() => {
+      res.clearCookie("connect.sid");
+      res.redirect("/");
+    });
+  });
+});
+
+// Dashboard (Protected Route)
+router.get("/dashboard", isAuthenticated, (req, res) => {
+  console.log(" Dashboard accessed by:", req.user.username);
+  res.render("dashboard", { 
+    title: "Dashboard - My Grocery Buddy",
+    user: req.user 
+  });
+});
+
+// View users (requires login)
+router.get("/userlist", isAuthenticated, async (req, res) => {
+  const users = await User.find().sort({ username: 1 });
+  res.render("userlist", { title: "User Table", user: req.user, users });
+});
+
+module.exports = router;

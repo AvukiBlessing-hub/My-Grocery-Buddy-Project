@@ -1,10 +1,12 @@
+/* public/css/dashboard.css */
+
 /* Dashboard Specific Styles */
 :root {
     --primary: #4f46e5;
     --secondary: #f97316;
     --success: #22c55e;
     --danger: #ef4444;
-    --warning: #eab308;
+    --warning:#ca8a04;
     --dark: #1f2937;
     --light: #f3f4f6;
     --white: #ffffff;
@@ -20,11 +22,12 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
-      background: url(../image/new.jpg);
-   background-repeat: no-repeat; /* prevents duplication */
-  background-size: cover;      /* makes the image fill the screen */
+     background: url(../image/new.jpg);
+  background-repeat: no-repeat; /* prevents duplication */
+  background-size: cover; /* makes the image fill the screen */
   background-position: center; /* centers the image */
 }
+
 
 .container {
     max-width: 1400px;
@@ -80,7 +83,7 @@ body {
 }
 
 .btn-logout:hover {
-    background: #dc2626;
+    background: #ca8a04;
     transform: translateY(-2px);
 }
 
@@ -122,8 +125,8 @@ body {
     opacity: 0.3;
 }
 
-.stat-total { border-left: 4px solid darkgreen; }
-.stat-total .stat-icon { color: darkgreen; }
+.stat-total { border-left: 4px solid #3b82f6; }
+.stat-total .stat-icon { color: #3b82f6; }
 
 .stat-active { border-left: 4px solid var(--secondary); }
 .stat-active .stat-icon { color: var(--secondary); }
@@ -222,7 +225,7 @@ body {
 .form-group input:focus,
 .form-group select:focus {
     outline: none;
-    border-color: darkgreen;
+    border-color: var(--primary);
 }
 
 .form-group input.error,
@@ -260,7 +263,7 @@ body {
 }
 
 .btn-save:hover {
-    background: #ea580c;
+    background: #ca8a04;
 }
 
 .btn-cancel {
@@ -279,11 +282,11 @@ body {
 }
 
 .btn-add:hover {
-    background: #2b184a;
+    background: darkgreen;
 }
 
 .btn-warning {
-    background: #ca8a04;
+    background: var(--warning);
     color: var(--white);
 }
 
@@ -319,27 +322,19 @@ body {
     padding: 10px 20px;
     border: none;
     border-radius: 8px;
-    background:  var(--danger);
-    color: var(--dark);
+    background: var(--light);
+    color: white;
     cursor: pointer;
     font-weight: 600;
     transition: all 0.3s;
 }
 
 .filter-btn:hover {
-    background: var(--danger);
+    background: #e5e7eb;
 }
 
-#filterAll {
-    background:darkgreen;
-    color: var(--white);
-}
-#filterComleted {
-    background:darkgreen;
-    color: var(--white);
-}
-#filterActive {
-    background: #ca8a04;
+.filter-btn.active {
+    background: darkgreen;
     color: var(--white);
 }
 
@@ -407,6 +402,18 @@ tbody td {
     cursor: pointer;
     margin: 0 3px;
     transition: all 0.2s;
+}
+#filterAll {
+background: darkgreen
+}
+#filterActive {
+background: #ca8a04
+}
+#filterCompleted {
+background: red
+}
+#formTitle {
+    background: darkgreen;
 }
 
 .btn-edit {

@@ -1,0 +1,114 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Dashboard - My Grocery Buddy
+    link(rel="stylesheet", href="/css/dashboard.css")
+    //  Font Awesome for icons 
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css")
+  
+  body
+    //  Header 
+    header.dashboard-header
+      .container
+        .header-content
+          .logo
+            h1 My Grocery Buddy
+          .user-info
+            span#username= user ? user.username : 'User'
+            button.btn-logout(onclick="logout()") Logout
+    
+    //  Success/Error Messages 
+    #messageContainer
+    
+    main.dashboard-main
+      .container
+        //  Statistics Cards 
+        .stats-grid
+          .stat-card.stat-total
+            .stat-content
+              .stat-info
+                p.stat-label Total Items
+                h2.stat-value#totalItems 0
+          .stat-card.stat-active
+            .stat-content
+              .stat-info
+                p.stat-label Remaining
+                h2.stat-value#activeItems 0
+          .stat-card.stat-completed
+            .stat-content
+              .stat-info
+                p.stat-label Completed
+                h2.stat-value#completedItems 0
+        
+        //  Main Content Grid 
+        .content-grid
+          //  Form Section 
+          .form-section#formSection
+            .card
+              h2#formTitle Add New Item
+              .form-container
+                .form-group
+                  label(for="itemName") Item Name 
+                  input#itemName(type="text", placeholder="")
+                  span.error-message#nameError
+                .form-group
+                  label(for="category") Category 
+                  select#category
+                    option(value="") Select category
+                    option(value="Produce") Produce
+                    option(value="Dairy") Dairy
+                    option(value="Meat") Meat
+                    option(value="Bakery") Bakery
+                    option(value="Pantry") Pantry
+                    option(value="Frozen") Frozen
+                    option(value="Beverages") Beverages
+                    option(value="Snacks") Snacks
+                    option(value="Other") Other
+                  span.error-message#categoryError
+                .form-group
+                  label(for="price") Price (UGX) 
+                  input#price(type="number", placeholder="")
+                  span.error-message#priceError
+                .form-group
+                  label(for="quantity") Quantity 
+                  input#quantity(type="number", placeholder="")
+                  span.error-message#quantityError
+                .form-actions
+                  button.btn.btn-save(onclick="saveItem()") SAVE
+                  button.btn.btn-cancel(onclick="cancelForm()") CANCEL
+          
+          //  Table Section 
+          .table-section
+            .card
+              //  Controls 
+              .controls
+                .filters
+                  button.btn.btn-warning.active#filterAll(onclick="filterItems('all')") All Items
+                  button.filter-btn#filterActive(onclick="filterItems('active')") Active
+                  button.filter-btn#filterCompleted(onclick="filterItems('completed')") Completed
+                .actions
+                  button.btn.btn-add(onclick="showAddForm()")
+                    i.fas.fa-plus
+                    |  Add Item
+                  button.btn.btn-warning(onclick="clearCompleted()") Clear Completed
+                  button.btn.btn-danger(onclick="clearAll()") Clear All
+              
+              //  Table 
+              .table-container
+                table#itemsTable
+                  thead
+                    tr
+                      th STATUS
+                      th ITEM NAME
+                      th CATEGORY
+                      th PRICE (UGX)
+                      th QUANTITY
+                      th ACTIONS
+                  tbody#tableBody
+                    //  Items will be inserted here dynamically 
+    
+    script(src="/js/api.js")
+    script(src="/js/validation.js")
+    script(src="/js/dashboard.js")

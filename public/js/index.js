@@ -1,33 +1,21 @@
 const hero = document.querySelector(".hero");
 
 const images = [
-    "/public/image/p3.jpg",
-    "/public/image/p6.jpg",
-    "/public/image/p1.jpg",
-    "/public/image/p4.jpg",
-    "/public/image/p2.jpg",
-    "/public/image/p5.jpg",
+  "/image/p3.jpg",
+  "/image/p6.jpg",
+  "/image/p1.jpg",
+  "/image/p4.jpg",
+  "/image/p2.jpg",
+  "/image/p5.jpg",
 ];
 
+// Update index for next image
 let index = 0;
 
 function changeBackground() {
-    // Remove the "active" class to reset animation
-    hero.classList.remove("active");
-
-    // Change the background image
-    hero.style.backgroundImage = `url(${images[index]})`;
-
-    // Update index for next image
-    index = (index + 1) % images.length;
-
-    // Re-add the "active" class slightly later to trigger the zoom animation
-    setTimeout(() => hero.classList.add("active"), 100);
+  hero.style.backgroundImage = `url(${images[index]})`;
+  index = (index + 1) % images.length;
 }
 
-// Set the first image
-changeBackground();
-
-// Change image every 4 seconds
-setInterval(changeBackground, 4000);
-
+changeBackground(); // set first image
+setInterval(changeBackground, 4000); // change every 4 seconds

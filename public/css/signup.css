@@ -5,7 +5,7 @@
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background: url();
   min-height: 100vh;
   display: flex;
@@ -13,8 +13,8 @@ body {
   align-items: center;
   padding: 20px;
   background: url(../image/new.jpg);
-   background-repeat: no-repeat; /* prevents duplication */
-  background-size: cover;      /* makes the image fill the screen */
+  background-repeat: no-repeat; /* prevents duplication */
+  background-size: cover; /* makes the image fill the screen */
   background-position: center; /* centers the image */
 }
 
@@ -25,7 +25,6 @@ body {
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   width: 100%;
   max-width: 450px;
-  
 }
 
 h2 {
@@ -165,7 +164,7 @@ button:active {
   color: darkgreen;
   text-decoration: none;
 }
-.login-link{
+.login-link {
   text-align: center;
-  margin-top: 20px ;
+  margin-top: 20px;
 }

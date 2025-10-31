@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+
+    <!-- Link to external CSS -->
+    <link rel="stylesheet" href="/public/css/login.css" />
+  </head>
+
+  <body>
+    <div class="login-container">
+      <h1>Login</h1>
+
+      <!-- Success message -->
+      <div class="success-message" id="successMessage">
+        Login successful! Redirecting...
+      </div>
+
+      <!-- Login form -->
+      <form id="loginForm">
+        <!-- Email -->
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="Enter your email" />
+          <div class="error-message" id="emailError"></div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="password-wrapper">
+            <input
+              type="password"
+              id="password"
+              placeholder="Enter your password"
+            />
+            <!-- Simple, clean eye symbol -->
+            <span class="eye-icon" id="togglePassword"></span>
+          </div>
+          <div class="error-message" id="passwordError"></div>
+        </div>
+
+        <!-- Submit button -->
+        <button type="submit">Login</button>
+      </form>
+
+      <!-- Signup link -->
+      <div class="signup-link">
+        Don't have an account? <a href="signup.html">Sign up</a>
+      </div>
+    </div>
+
+    <!-- Link to external JavaScript -->
+    <script src="/public/js/login.js"></script>
+  </body>
+</html>
