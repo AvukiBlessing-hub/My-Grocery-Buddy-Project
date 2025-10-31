@@ -2,24 +2,21 @@
   "name": "my-grocery-buddy-project",
   "version": "1.0.0",
   "description": "Team work",
-  "keywords": [
-    "success"
-  ],
+  "keywords": ["success"],
   "homepage": "https://github.com/AvukiBlessing-hub/My-Grocery-Buddy-Project#readme",
   "bugs": {
     "url": "https://github.com/AvukiBlessing-hub/My-Grocery-Buddy-Project/issues"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/AvukiBlessing-hub/My-Grocery-Buddy-Project.git"
   },
-  "license": "ISC",
   "author": "Avuki and Pream",
-  "type": "commonjs",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "license": "ISC",
   "dependencies": {
     "connect-mongo": "^5.1.0",
     "dotenv": "^17.2.3",

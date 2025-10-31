@@ -9,25 +9,20 @@ const images = [
     "/public/image/p5.jpg",
 ];
 
-let index = 0;
+    // hero.classList.remove("active");
 
-function changeBackground() {
-    // Remove the "active" class to reset animation
-    hero.classList.remove("active");
-
-    // Change the background image
-    hero.style.backgroundImage = `url(${images[index]})`;
+   
+  
 
     // Update index for next image
-    index = (index + 1) % images.length;
+   let index = 0;
 
-    // Re-add the "active" class slightly later to trigger the zoom animation
-    setTimeout(() => hero.classList.add("active"), 100);
-}
+   function changeBackground() {
+ hero.style.backgroundImage = `url(${images[index]})`;
+  index = (index + 1) % images.length;
+   }
 
-// Set the first image
-changeBackground();
 
-// Change image every 4 seconds
-setInterval(changeBackground, 4000);
 
+changeBackground(); // set first image
+setInterval(changeBackground, 4000); // change every 4 seconds
