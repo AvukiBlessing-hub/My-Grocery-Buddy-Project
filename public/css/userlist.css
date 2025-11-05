@@ -1,0 +1,158 @@
+/* ---------- General Layout ---------- */
+body {
+  font-family: "Poppins", Arial, sans-serif;
+  background: url(../images/new.jpg);
+  background-repeat: no-repeat; /* prevents duplication */
+  background-size: cover;       /* makes the image fill the screen */
+  background-position: center;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 40px auto;
+  background: darkgray;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  padding: 30px;
+}
+
+/* ---------- Heading ---------- */
+h2 {
+  color: black;
+  margin-bottom: 20px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  text-align: center;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+
+/* Primary button */
+.btn-primary {
+  background-color: darkgreen;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: darkgreen;
+}
+
+/* Edit button */
+.btn-warning {
+  background-color: darkgreen;
+  color: #fff;
+}
+
+.btn-warning:hover {
+  background-color: darkgreen;
+}
+
+/* Delete button */
+.btn-danger {
+  background-color: darkgreen;
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background-color: darkgreen;
+}
+
+/* ---------- Table ---------- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+thead {
+  background-color: black;
+  color: #fff;
+}
+
+th, td {
+  padding: 12px 15px;
+  border: 1px solid #e1e1e1;
+  text-align: left;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tbody tr:hover {
+  background-color: #eef4ff;
+}
+
+td form {
+  margin: 0;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  table {
+    font-size: 13px;
+  }
+
+  .btn {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+}
+
+/* ---------- Footer ---------- */
+footer.footer {
+  background-color: #222;           /* Dark background */
+  color: #fff;                      /* White text */
+  padding: 20px 0;                  /* Vertical spacing */
+  text-align: center;               /* Centered content */
+  font-size: 14px;
+  border-top: 1px solid #444;       /* Subtle top border */
+}
+
+footer.footer a {
+  color: #fff;                      /* Links in white */
+  text-decoration: none;            /* Remove underline */
+  margin: 0 10px;                   /* Space between links */
+  transition: color 0.3s;
+}
+
+footer.footer a:hover {
+  color: #00aced;                   /* Highlight on hover */
+}
+
+footer .footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* ---------- Sticky Footer Layout ---------- */
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container {
+  flex: 1;  /* Ensures main content expands to fill space */
+}
