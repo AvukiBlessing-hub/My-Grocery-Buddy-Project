@@ -1,0 +1,36 @@
+meta(charset="UTF-8")
+meta(name="viewport", content="width=device-width,initial-scale=1")
+title Login
+//  Link to external CSS 
+link(rel="stylesheet", href="/css/login.css")
+.login-container
+  h1 Login
+  //  Success message 
+  .success-message#successMessage.
+    
+    Login successful! Redirecting...
+    
+  //  Login form 
+  form#loginForm
+    //  Email 
+    .form-group
+      label(for="email") Email
+      input#email(type="email", placeholder="Enter your email")
+      .error-message#emailError
+    //  Password 
+    .form-group
+      label(for="password") Password
+      .password-wrapper
+        input#password(type="password", placeholder="Enter your password")
+        //  Simple, clean eye symbol 
+        span.eye-icon#togglePassword
+      .error-message#passwordError
+    //  Submit button 
+    button(type="submit") Login
+  //  Signup link 
+  .signup-link
+    | 
+Don't have an account? 
+    a(href="signup.html") Sign up
+//  Link to external JavaScript 
+script(src="/js/login.js")
