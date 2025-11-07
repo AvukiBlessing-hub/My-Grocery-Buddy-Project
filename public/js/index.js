@@ -1,12 +1,14 @@
 const hero = document.querySelector(".hero");
 
 const images = [
+
   "/image/p3.jpg",
   "/image/p6.jpg",
   "/image/p1.jpg",
   "/image/p4.jpg",
   "/image/p2.jpg",
   "/image/p5.jpg",
+
 ];
 
 // Update index for next image

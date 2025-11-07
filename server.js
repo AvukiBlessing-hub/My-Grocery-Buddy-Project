@@ -1,3 +1,4 @@
+
 const express = require("express");
 const mongoose = require("mongoose");
 const session = require("express-session");
@@ -83,10 +84,10 @@ app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   res.locals.user = req.user;
-  next();
 });
 
 // Routes
+
 app.use("/", authRoutes);
 app.use("/api", itemRoutes);
 
@@ -106,3 +107,22 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(` Server running on http://localhost:${PORT}`);
 });
+
+app.use('/', authRoutes);
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).send('Page not found');
+});
+
+// Error handler (shows full stack trace for debugging)
+app.use((err, req, res, next) => {
+  console.error(' Server error:', err);
+  res.status(500).send(`<h1>Something went wrong!</h1><pre>${err.stack}</pre>`);
+});
+
+// Start server
+app.listen(PORT, () => console.log(` Server running on http://localhost:${PORT}`));
+
+module.exports = app;
+
