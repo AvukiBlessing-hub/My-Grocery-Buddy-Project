@@ -1,0 +1,51 @@
+
+meta(charset="UTF-8")
+meta(name="viewport", content="width=device-width,initial-scale=1")
+title Registration Form
+link(rel="stylesheet", href="/css/signup.css")
+
+.overlay#overlay
+.container
+  h2 Registration form
+
+  // Flash messages
+  if error_msg.length
+    ul.error-list
+      each err in error_msg
+        li= err
+  if success_msg.length
+    ul.success-list
+      each msg in success_msg
+        li= msg
+
+  // Registration form
+  form#registrationForm(action="/signup" method="POST")
+    .form-group
+      label(for="username") Username
+      input#username(type="text" name="username" placeholder="Enter username")
+      span.error-message#usernameError
+    .form-group
+      label(for="email") Email
+      input#email(type="email" name="email" placeholder="Enter email")
+      span.error-message#emailError
+    .form-group
+      label(for="password") Password
+      input#password(type="password" name="password" placeholder="Enter password")
+      .password-requirements
+      span.error-message#passwordError
+    .form-group
+      label(for="confirmPassword") Confirm Password
+      input#confirmPassword(type="password" name="confirmPassword" placeholder="Confirm password")
+      span.error-message#confirmPasswordError
+    button(type="submit") Register
+
+  .login-link
+    | Have an account? 
+    a(href="/login") Login
+
+.success-popup#successPopup
+  h3 Registration Successful!
+  p Your account has been created successfully.
+
+script(src="/js/signup.js")
+

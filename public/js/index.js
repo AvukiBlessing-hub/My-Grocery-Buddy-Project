@@ -1,12 +1,12 @@
 const hero = document.querySelector(".hero");
 
 const images = [
-    "/public/image/p3.jpg",
-    "/public/image/p6.jpg",
-    "/public/image/p1.jpg",
-    "/public/image/p4.jpg",
-    "/public/image/p2.jpg",
-    "/public/image/p5.jpg",
+    "/image/p3.jpg",
+    "/image/p6.jpg",
+    "/image/p1.jpg",
+    "/image/p4.jpg",
+    "/image/p2.jpg",
+    "/image/p5.jpg",
 ];
 
     // hero.classList.remove("active");

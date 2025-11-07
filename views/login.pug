@@ -1,36 +1,37 @@
 meta(charset="UTF-8")
 meta(name="viewport", content="width=device-width,initial-scale=1")
 title Login
-//  Link to external CSS 
 link(rel="stylesheet", href="/css/login.css")
+
 .login-container
   h1 Login
-  //  Success message 
-  .success-message#successMessage.
-    
-    Login successful! Redirecting...
-    
-  //  Login form 
-  form#loginForm
-    //  Email 
+
+  // Display flash messages
+  if error_msg.length
+    ul.error-list
+      each err in error_msg
+        li= err
+  if success_msg.length
+    ul.success-list
+      each msg in success_msg
+        li= msg
+
+  // Login form
+  form#loginForm(action="/login" method="POST")
     .form-group
       label(for="email") Email
-      input#email(type="email", placeholder="Enter your email")
+      input#email(type="email" name="email" placeholder="Enter your email")
       .error-message#emailError
-    //  Password 
     .form-group
       label(for="password") Password
       .password-wrapper
-        input#password(type="password", placeholder="Enter your password")
-        //  Simple, clean eye symbol 
+        input#password(type="password" name="password" placeholder="Enter your password")
         span.eye-icon#togglePassword
       .error-message#passwordError
-    //  Submit button 
     button(type="submit") Login
-  //  Signup link 
+
   .signup-link
-    | 
-Don't have an account? 
-    a(href="signup.html") Sign up
-//  Link to external JavaScript 
+    | Don't have an account? 
+    a(href="/signup") Sign up
+
 script(src="/js/login.js")
