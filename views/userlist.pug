@@ -1,12 +1,15 @@
 meta(charset="UTF-8")
 meta(name="viewport", content="width=device-width,initial-scale=1")
 title User Table
-link(rel="stylesheet", href="/public/css/userlist.css")
+link(rel="stylesheet", href="/css/userlist.css")
+
 .container
   h2(style="text-align:center;") Registered Users
-  //  Add User button (visible only to Manager) 
+
+  // Add User button (visible only to Manager)
   p(style="text-align:left; margin-bottom:10px;")
     a.btn.btn-primary(href="/signup") Add New User
+
   table#userTable
     thead
       tr
@@ -15,5 +18,6 @@ link(rel="stylesheet", href="/public/css/userlist.css")
         th Edit
         th Delete
     tbody#userTableBody
-      //  Dynamic user rows will be inserted here 
+      // Dynamic user rows will be inserted here
+
 script(src="/js/userlist.js")
