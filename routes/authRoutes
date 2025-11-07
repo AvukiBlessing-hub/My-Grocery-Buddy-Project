@@ -5,21 +5,29 @@ const UserModel = require("../models/userModel");
 const { isAuthenticated } = require("../middleware/auth");
 const flash = require("connect-flash");
 
-// ================= Landing Page =================
+// Landing Page 
 router.get("/", (req, res) => {
   res.render("index", { title: "Grocery App - Home" });
 });
 
-// ================= Signup (Anyone Can Register) =================
 router.get("/signup", (req, res) => {
   res.render("signup", { title: "Create Account" });
 });
 
 router.post("/signup", async (req, res) => {
-  const { fullname, email, password } = req.body;
+  const { username, email, password } = req.body;
 
-  if (!email || !password) {
-    return res.status(400).send("Email and password are required");
+  if (!email) {
+    req.flash("error", "Email is required");
+    return res.redirect("/signup");
+  }
+  if (!password) {
+    req.flash("error", "Password is required");
+    return res.redirect("/signup");
+  }
+  if (!username) {
+    req.flash("error", "Username is required");
+    return res.redirect("/signup");
   }
 
   try {
@@ -29,45 +37,45 @@ router.post("/signup", async (req, res) => {
       return res.redirect("/signup");
     }
 
-    const newUser = new UserModel({ fullname, email });
+    const newUser = new UserModel({ username, email });
     await UserModel.register(newUser, password);
 
     req.flash("success", "Registration successful! Please log in.");
-    res.redirect("/loginin");
+    res.redirect("/login");
   } catch (err) {
     console.error("Error registering user:", err);
     res.status(500).send("Error registering user");
   }
 });
 
-// ================= Sign In =================
-router.get("/loginin", (req, res) => {
-  res.render("loginin", {
+//  Login 
+router.get("/login", (req, res) => {
+  res.render("login", {
     title: "Login",
     error: req.flash("error"),
   });
 });
 
-router.post("/loginin", (req, res, next) => {
+router.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) return next(err);
 
     if (!user) {
       req.flash("error", info?.message || "Invalid email or password");
-      return res.redirect("/loginin");
+      return res.redirect("/login");
     }
 
     req.logIn(user, (err) => {
       if (err) return next(err);
       console.log("Logged in user:", user);
 
-      // Redirect all users to their personal dashboard or grocery list
+      // Redirect all users to their dashboard
       return res.redirect("/dashboard");
     });
   })(req, res, next);
 });
 
-// ================= Logout =================
+//  Logout 
 router.get("/logout", (req, res, next) => {
   req.logout(function (err) {
     if (err) return next(err);
@@ -78,8 +86,7 @@ router.get("/logout", (req, res, next) => {
   });
 });
 
-// ================= View All Users (Optional Debug) =================
-// Only useful for testing — you can remove this in production
+//  View All Users
 router.get("/userlist", isAuthenticated, async (req, res) => {
   try {
     const users = await UserModel.find().sort();
@@ -90,7 +97,7 @@ router.get("/userlist", isAuthenticated, async (req, res) => {
   }
 });
 
-// ================= Edit User =================
+//  Edit User 
 router.get("/edituser/:id", isAuthenticated, async (req, res) => {
   try {
     const foundUser = await UserModel.findById(req.params.id).lean();
@@ -101,7 +108,11 @@ router.get("/edituser/:id", isAuthenticated, async (req, res) => {
       return res.status(403).send("Access denied");
     }
 
-    res.render("editUser", { title: "Edit Profile", foundUser, user: req.user });
+    res.render("editUser", {
+      title: "Edit Profile",
+      foundUser,
+      user: req.user,
+    });
   } catch (err) {
     console.error("Error loading user:", err);
     res.status(500).send("Server error");
@@ -110,7 +121,7 @@ router.get("/edituser/:id", isAuthenticated, async (req, res) => {
 
 router.post("/edituser/:id", isAuthenticated, async (req, res) => {
   try {
-    const { fullname, email } = req.body;
+    const { username, email } = req.body;
     const foundUser = await UserModel.findById(req.params.id);
 
     if (!foundUser) return res.status(404).send("User not found");
@@ -120,15 +131,15 @@ router.post("/edituser/:id", isAuthenticated, async (req, res) => {
       return res.status(403).send("Access denied");
     }
 
-    await UserModel.findByIdAndUpdate(req.params.id, { fullname, email });
-    res.redirect("/formlist");
+    await UserModel.findByIdAndUpdate(req.params.id, { username, email });
+    res.redirect("/userlist");
   } catch (err) {
     console.error("Error updating user:", err);
     res.status(500).send("Server error");
   }
 });
 
-// ================= Delete User =================
+// Delete User 
 router.post("/deleteuser/:id", isAuthenticated, async (req, res) => {
   try {
     const foundUser = await UserModel.findById(req.params.id);
