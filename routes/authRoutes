@@ -1,5 +1,7 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
+
+
 
 const passport = require("passport");
 const User = require("../models/userModel");
@@ -12,11 +14,13 @@ router.get("/", (req, res) => {
 
 // Signup
 router.get("/signup", (req, res) => {
+
   res.render("signup", { 
     title: "Create Account",
     error_msg: req.flash('error') || [],
     success_msg: req.flash('success') || []
   });
+
 });
 
 router.post("/signup", async (req, res) => {
@@ -37,18 +41,23 @@ router.post("/signup", async (req, res) => {
       $or: [{ email }, { username }] 
     });
     if (existingUser) {
+
       req.flash("error", "Email or username already registered");
+
       return res.redirect("/signup");
     }
 
     const newUser = new User({ username, email });
     await User.register(newUser, password);
+
     console.log(" New user created:", newUser.username);
 
     req.flash("success", "Registration successful! Please log in.");
     res.redirect("/login");
   } catch (err) {
+
     console.error(" Error registering user:", err);
+
     req.flash("error", err.message);
     res.redirect("/signup");
   }
@@ -56,6 +65,7 @@ router.post("/signup", async (req, res) => {
 
 // Login
 router.get("/login", (req, res) => {
+
   res.render("login", { 
     title: "Login",
     error_msg: req.flash('error') || [],
@@ -87,13 +97,15 @@ router.post("/login", (req, res, next) => {
       console.log(" Login successful:", user.username);
       return res.redirect("/dashboard");
 
+
     if (err) return next(err);
     req.session.destroy(() => {
-      res.clearCookie('connect.sid');
-      res.redirect('/');
+      res.clearCookie("connect.sid");
+      res.redirect("/");
     });
   });
 });
+
 
 
 // Dashboard (Protected Route)
@@ -109,6 +121,7 @@ router.get("/dashboard", isAuthenticated, (req, res) => {
 router.get("/userlist", isAuthenticated, async (req, res) => {
   const users = await User.find().sort({ username: 1 });
   res.render("userlist", { title: "User Table", user: req.user, users });
+
 });
 
 module.exports = router;

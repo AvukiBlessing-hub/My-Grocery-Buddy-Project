@@ -1,4 +1,5 @@
 
+
 doctype html
 html(lang="en")
   head
@@ -21,6 +22,7 @@ html(lang="en")
         ul.success-list
           each msg in success_msg
             li= msg
+
 
       form#registrationForm(action="/signup" method="POST")
         .form-group
@@ -53,6 +55,7 @@ html(lang="en")
     .success-popup#successPopup
       h3 Registration Successful!
       p Your account has been created successfully.
+
 
     script(src="/js/signup.js")
 

@@ -20,6 +20,7 @@ html(lang="en")
           each msg in success_msg
             li= msg
 
+
       form#loginForm(action="/login" method="POST")
         .form-group
           label(for="username") Email or Username
@@ -34,6 +35,8 @@ html(lang="en")
           .error-message#passwordError
         
         button(type="submit") Login
+
+
 
       .signup-link
         | Don't have an account? 

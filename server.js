@@ -1,4 +1,5 @@
 
+
 const express = require("express");
 const mongoose = require("mongoose");
 const session = require("express-session");
@@ -12,7 +13,9 @@ const User = require("./models/userModel");
 const authRoutes = require("./routes/authRoutes");
 const itemRoutes = require("./routes/itemRoutes");
 
+
 const app = express();
+
 
 // Database Connection
 mongoose.connect(process.env.MONGO_URI || "mongodb://localhost:27017/grocery-app")
@@ -41,12 +44,14 @@ app.use(session({
   }
 }));
 
+
 // Flash Messages
 app.use(flash());
 
 // Passport Configuration
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 // CRITICAL: Configure passport to accept email OR username
 passport.use(new LocalStrategy({
@@ -76,8 +81,10 @@ passport.use(new LocalStrategy({
   }
 }));
 
+
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
 
 // Global Variables for Views
 app.use((req, res, next) => {
@@ -110,19 +117,22 @@ app.listen(PORT, () => {
 
 app.use('/', authRoutes);
 
+
 // 404 handler
+
 app.use((req, res) => {
-  res.status(404).send('Page not found');
+  res.status(404).send("Page not found");
 });
 
-// Error handler (shows full stack trace for debugging)
+// Error handler
+
 app.use((err, req, res, next) => {
-  console.error(' Server error:', err);
+  console.error(" Server error:", err);
   res.status(500).send(`<h1>Something went wrong!</h1><pre>${err.stack}</pre>`);
 });
 
 // Start server
-app.listen(PORT, () => console.log(` Server running on http://localhost:${PORT}`));
+
 
 module.exports = app;
 

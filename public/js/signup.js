@@ -12,11 +12,15 @@ confirmPassword.addEventListener("blur", () => validateConfirmPassword());
 
 // Clear error on input - also revalidate confirm password when password changes
 
+
+
 username.addEventListener("input", () => clearError(username, "usernameError"));
 email.addEventListener("input", () => clearError(email, "emailError"));
 password.addEventListener("input", () => {
   clearError(password, "passwordError");
   if (confirmPassword.value !== "") {
+
+
 
     validateConfirmPassword();
   }
@@ -28,6 +32,8 @@ confirmPassword.addEventListener("input", () =>
 // Submit event
 form.addEventListener("submit", function (event) {
 
+
+
   // Run all validations
   const isUsernameValid = validateUsername();
   const isEmailValid = validateEmail();
@@ -35,6 +41,8 @@ form.addEventListener("submit", function (event) {
   const isConfirmPasswordValid = validateConfirmPassword();
 
   // Only prevent submission if validation fails
+
+
 
   if (
     !(
@@ -47,6 +55,8 @@ form.addEventListener("submit", function (event) {
     event.preventDefault(); // stop submission if invalid
   } else {
     showSuccessPopup();
+
+
 
 
   }

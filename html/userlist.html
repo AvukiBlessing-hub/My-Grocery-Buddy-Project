@@ -1,38 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>User Table</title>
     <link rel="stylesheet" href="/public/css/userlist.css" />
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <h2 style="text-align:center;">Registered Users</h2>
+      <h2 style="text-align: center">Registered Users</h2>
 
-        <!-- Add User button (visible only to Manager) -->
-        <p style="text-align:left; margin-bottom:10px;">
-            <a class="btn btn-primary" href="/signup">Add New User</a>
-        </p>
+      <!-- Add User button (visible only to Manager) -->
+      <p style="text-align: left; margin-bottom: 10px">
+        <a class="btn btn-primary" href="/signup">Add New User</a>
+      </p>
 
-        <table id="userTable">
-            <thead>
-                <tr>
-                    <th>UserName</th>
-                    <th>Email</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                </tr>
-            </thead>
-            <tbody id="userTableBody">
-                <!-- Dynamic user rows will be inserted here -->
-            </tbody>
-        </table>
+      <table id="userTable">
+        <thead>
+          <tr>
+            <th>UserName</th>
+            <th>Email</th>
+            <th>Edit</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody id="userTableBody">
+          <!-- Dynamic user rows will be inserted here -->
+        </tbody>
+      </table>
     </div>
 
     <script src="/public/js/userlist.js"></script>
-</body>
-
+  </body>
 </html>
