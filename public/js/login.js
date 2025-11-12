@@ -7,7 +7,6 @@ const passwordError = document.getElementById("passwordError");
 const successMessage = document.getElementById("successMessage");
 const togglePassword = document.getElementById("togglePassword");
 
-
 // Toggle Password Visibility
 
 togglePassword.addEventListener("click", function () {
@@ -19,14 +18,12 @@ togglePassword.addEventListener("click", function () {
   this.innerHTML = "&#128065;";
 });
 
-
 // Email Validation Function
 
 function validateEmail(email) {
   const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return re.test(email);
 }
-
 
 // Clear Error on Input
 
@@ -40,11 +37,9 @@ passwordInput.addEventListener("input", function () {
   passwordError.classList.remove("show");
 });
 
-
 //  Form Submission Handling
 
 form.addEventListener("submit", function (e) {
-  e.preventDefault();
   let isValid = true;
 
   // Reset visual states
@@ -94,8 +89,6 @@ form.addEventListener("submit", function (e) {
         email: emailInput.value,
         password: passwordInput.value,
       });
-      // Redirect example:
-      // window.location.href = 'dashboard.html';
     }, 2000);
   }
 });

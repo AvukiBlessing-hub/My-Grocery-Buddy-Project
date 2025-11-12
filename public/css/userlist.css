@@ -3,7 +3,7 @@ body {
   font-family: "Poppins", Arial, sans-serif;
   background: url(../images/new.jpg);
   background-repeat: no-repeat; /* prevents duplication */
-  background-size: cover;       /* makes the image fill the screen */
+  background-size: cover; /* makes the image fill the screen */
   background-position: center;
   margin: 0;
   padding: 0;
@@ -81,7 +81,8 @@ thead {
   color: #fff;
 }
 
-th, td {
+th,
+td {
   padding: 12px 15px;
   border: 1px solid #e1e1e1;
   text-align: left;
@@ -117,23 +118,23 @@ td form {
 
 /* ---------- Footer ---------- */
 footer.footer {
-  background-color: #222;           /* Dark background */
-  color: #fff;                      /* White text */
-  padding: 20px 0;                  /* Vertical spacing */
-  text-align: center;               /* Centered content */
+  background-color: #222; /* Dark background */
+  color: #fff; /* White text */
+  padding: 20px 0; /* Vertical spacing */
+  text-align: center; /* Centered content */
   font-size: 14px;
-  border-top: 1px solid #444;       /* Subtle top border */
+  border-top: 1px solid #444; /* Subtle top border */
 }
 
 footer.footer a {
-  color: #fff;                      /* Links in white */
-  text-decoration: none;            /* Remove underline */
-  margin: 0 10px;                   /* Space between links */
+  color: #fff; /* Links in white */
+  text-decoration: none; /* Remove underline */
+  margin: 0 10px; /* Space between links */
   transition: color 0.3s;
 }
 
 footer.footer a:hover {
-  color: #00aced;                   /* Highlight on hover */
+  color: #00aced; /* Highlight on hover */
 }
 
 footer .footer-container {
@@ -143,7 +144,8 @@ footer .footer-container {
 }
 
 /* ---------- Sticky Footer Layout ---------- */
-html, body {
+html,
+body {
   height: 100%;
 }
 
@@ -154,5 +156,5 @@ body {
 }
 
 .container {
-  flex: 1;  /* Ensures main content expands to fill space */
+  flex: 1; /* Ensures main content expands to fill space */
 }

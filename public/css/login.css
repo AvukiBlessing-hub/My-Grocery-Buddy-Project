@@ -148,7 +148,7 @@ button:hover {
 button:active {
   transform: translateY(0);
 }
- /* Signup Link */ 
+/* Signup Link */
 .signup-link {
   text-align: center;
   margin-top: 20px;

@@ -1,61 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Registration Form</title>
-    <link rel="stylesheet" href="/public/css/signup.css">
-</head>
+    <link rel="stylesheet" href="/public/css/signup.css" />
+  </head>
 
-<body>
+  <body>
     <div class="overlay" id="overlay"></div>
 
     <div class="container">
-        <h2>Registration form</h2>
-        <form id="registrationForm">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="Enter username">
-                <span class="error-message" id="usernameError"></span>
-            </div>
-
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="Enter email">
-                <span class="error-message" id="emailError"></span>
-            </div>
-
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Enter password">
-                <div class="password-requirements">
-                    <!-- Must be at least 6 characters with uppercase, lowercase, and number -->
-                </div>
-                <span class="error-message" id="passwordError"></span>
-            </div>
-
-            <div class="form-group">
-                <label for="confirmPassword">Confirm Password</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password">
-                <span class="error-message" id="confirmPasswordError"></span>
-            </div>
-
-            <button type="submit">Register</button>
-        </form>
-        <div class="login-link">
-            Have an account? <a href="login.html">Login</a>
+      <h2>Registration form</h2>
+      <form id="registrationForm">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Enter username"
+          />
+          <span class="error-message" id="usernameError"></span>
         </div>
 
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter email"
+          />
+          <span class="error-message" id="emailError"></span>
+        </div>
 
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter password"
+          />
+          <div class="password-requirements">
+            <!-- Must be at least 6 characters with uppercase, lowercase, and number -->
+          </div>
+          <span class="error-message" id="passwordError"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            placeholder="Confirm password"
+          />
+          <span class="error-message" id="confirmPasswordError"></span>
+        </div>
+
+        <button type="submit">Register</button>
+      </form>
+      <div class="login-link">
+        Have an account? <a href="login.html">Login</a>
+      </div>
     </div>
 
     <div class="success-popup" id="successPopup">
-        <h3> Registration Successful!</h3>
-        <p>Your account has been created successfully.</p>
+      <h3>Registration Successful!</h3>
+      <p>Your account has been created successfully.</p>
     </div>
 
     <script src="/public/js/signup.js"></script>
-</body>
-
+  </body>
 </html>

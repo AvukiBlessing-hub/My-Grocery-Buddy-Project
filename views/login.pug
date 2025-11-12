@@ -19,8 +19,9 @@ link(rel="stylesheet", href="/css/login.css")
   // Login form
   form#loginForm(action="/login" method="POST")
     .form-group
-      label(for="email") Email
-      input#email(type="email" name="email" placeholder="Enter your email")
+      label(for="username") Email or Username
+      input#username(type="text" name="username" placeholder="Enter your email")
+
       .error-message#emailError
     .form-group
       label(for="password") Password
