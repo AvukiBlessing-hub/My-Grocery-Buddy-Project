@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - My Grocery Buddy</title>
+    <link rel="stylesheet" href="/public/css/dashboard.css">
+    <link rel="stylesheet" href="/public/css/dashboard.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="dashboard-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+
+                    <h1>My Grocery Buddy</h1>
+                </div>
+                <div class="user-info">
+                    <span id="username">User</span>
+                    <button onclick="logout()" class="btn-logout">Logout</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Success/Error Messages -->
+    <div id="messageContainer"></div>
+
+    <main class="dashboard-main">
+        <div class="container">
+            <!-- Statistics Cards -->
+            <div class="stats-grid">
+                <div class="stat-card stat-total">
+                    <div class="stat-content">
+                        <div class="stat-info">
+                            <p class="stat-label">Total Items</p>
+                            <h2 class="stat-value" id="totalItems">0</h2>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="stat-card stat-active">
+                    <div class="stat-content">
+                        <div class="stat-info">
+                            <p class="stat-label">Remaining</p>
+                            <h2 class="stat-value" id="activeItems">0</h2>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="stat-card stat-completed">
+                    <div class="stat-content">
+                        <div class="stat-info">
+                            <p class="stat-label">Completed</p>
+                            <h2 class="stat-value" id="completedItems">0</h2>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Grid -->
+            <div class="content-grid">
+                <!-- Form Section -->
+                <div class="form-section" id="formSection">
+                    <div class="card">
+                        <h2 id="formTitle">Add New Item</h2>
+                        <div class="form-container">
+                            <div class="form-group">
+                                <label for="itemName">Item Name *</label>
+                                <input type="text" id="itemName" placeholder="e.g., Milk">
+                                <span class="error-message" id="nameError"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="category">Category *</label>
+                                <select id="category">
+                                    <option value="">Select category</option>
+                                    <option value="Produce">Produce</option>
+                                    <option value="Dairy">Dairy</option>
+                                    <option value="Meat">Meat</option>
+                                    <option value="Bakery">Bakery</option>
+                                    <option value="Pantry">Pantry</option>
+                                    <option value="Frozen">Frozen</option>
+                                    <option value="Beverages">Beverages</option>
+                                    <option value="Snacks">Snacks</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                <span class="error-message" id="categoryError"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="price">Price (UGX) *</label>
+                                <input type="number" id="price" placeholder="e.g., 5000">
+                                <span class="error-message" id="priceError"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="quantity">Quantity *</label>
+                                <input type="number" id="quantity" placeholder="e.g., 2">
+                                <span class="error-message" id="quantityError"></span>
+                            </div>
+
+                            <div class="form-actions">
+                                <button onclick="saveItem()" class="btn btn-save">SAVE</button>
+                                <button onclick="cancelForm()" class="btn btn-cancel">CANCEL</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table Section -->
+                <div class="table-section">
+                    <div class="card">
+                        <!-- Controls -->
+                        <div class="controls">
+                            <div class="filters">
+                                <button onclick="filterItems('all')" class="filter-btn active" id="filterAll">
+                                    All Items
+                                </button>
+                                <button onclick="filterItems('active')" class="filter-btn" id="filterActive">
+                                    Active
+                                </button>
+                                <button onclick="filterItems('completed')" class="filter-btn" id="filterCompleted">
+                                    Completed
+                                </button>
+                            </div>
+
+                            <div class="actions">
+                                <button onclick="showAddForm()" class="btn btn-add">
+                                    <i class="fas fa-plus"></i> Add Item
+                                </button>
+                                <button onclick="clearCompleted()" class="btn btn-warning">
+                                    Clear Completed
+                                </button>
+                                <button onclick="clearAll()" class="btn btn-danger">
+                                    Clear All
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Table -->
+                        <div class="table-container">
+                            <table id="itemsTable">
+                                <thead>
+                                    <tr>
+                                        <th>STATUS</th>
+                                        <th>ITEM NAME</th>
+                                        <th>CATEGORY</th>
+                                        <th>PRICE (UGX)</th>
+                                        <th>QUANTITY</th>
+                                        <th>ACTIONS</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableBody">
+                                    <!-- Items will be inserted here dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/validation.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>
