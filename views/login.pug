@@ -1,38 +1,41 @@
-meta(charset="UTF-8")
-meta(name="viewport", content="width=device-width,initial-scale=1")
-title Login
-link(rel="stylesheet", href="/css/login.css")
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Login
+    link(rel="stylesheet", href="/css/login.css")
+  body
+    .login-container
+      h1 Login
 
-.login-container
-  h1 Login
+      if error_msg && error_msg.length
+        ul.error-list
+          each err in error_msg
+            li= err
+      
+      if success_msg && success_msg.length
+        ul.success-list
+          each msg in success_msg
+            li= msg
 
-  // Display flash messages
-  if error_msg.length
-    ul.error-list
-      each err in error_msg
-        li= err
-  if success_msg.length
-    ul.success-list
-      each msg in success_msg
-        li= msg
+      form#loginForm(action="/login" method="POST")
+        .form-group
+          label(for="username") Email or Username
+          input#username(type="text" name="username" placeholder="Enter your email or username" required)
+          .error-message#usernameError
+        
+        .form-group
+          label(for="password") Password
+          .password-wrapper
+            input#password(type="password" name="password" placeholder="Enter your password" required)
+            span.eye-icon#togglePassword &#128065;
+          .error-message#passwordError
+        
+        button(type="submit") Login
 
-  // Login form
-  form#loginForm(action="/login" method="POST")
-    .form-group
-      label(for="username") Email or Username
-      input#username(type="text" name="username" placeholder="Enter your email")
+      .signup-link
+        | Don't have an account? 
+        a(href="/signup") Sign up
 
-      .error-message#emailError
-    .form-group
-      label(for="password") Password
-      .password-wrapper
-        input#password(type="password" name="password" placeholder="Enter your password")
-        span.eye-icon#togglePassword
-      .error-message#passwordError
-    button(type="submit") Login
-
-  .signup-link
-    | Don't have an account? 
-    a(href="/signup") Sign up
-
-script(src="/js/login.js")
+    script(src="/js/login.js")

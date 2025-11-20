@@ -1,120 +1,108 @@
-require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const session = require("express-session");
-const MongoStore = require("connect-mongo");
-const passport = require("passport");
-const cors = require("cors");
-const path = require("path");
-const methodOverride = require("method-override");
 const flash = require("connect-flash");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const MongoStore = require("connect-mongo");
+require("dotenv").config();
 
-const authRoutes = require("./routes/authRoutes");
 const User = require("./models/userModel");
+const authRoutes = require("./routes/authRoutes");
+const itemRoutes = require("./routes/itemRoutes");
 
 const app = express();
-const PORT = process.env.PORT || 3003;
 
-// MongoDB connection
-
-const mongoUrl = process.env.MONGODB_URL || process.env.MONGODB_URI;
-mongoose
-  .connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log(" MongoDB connected successfully"))
+// Database Connection
+mongoose.connect(process.env.MONGO_URI || "mongodb://localhost:27017/grocery-app")
+  .then(() => console.log(" Connected to MongoDB"))
   .catch((err) => console.error(" MongoDB connection error:", err));
 
-// View engine setup
-
+// View Engine Setup
 app.set("view engine", "pug");
-app.set("views", path.join(__dirname, "views"));
+app.set("views", "./views");
 
 // Middleware
-
-app.use(cors());
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(methodOverride("_method"));
+app.use(express.json());
+app.use(express.static("public"));
+
+// Session Configuration
+app.use(session({
+  secret: process.env.SESSION_SECRET || "your-secret-key-here",
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGO_URI || "mongodb://localhost:27017/grocery-app"
+  }),
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 // 24 hours
+  }
+}));
+
+// Flash Messages
 app.use(flash());
 
-// Static files
-
-app.use("/css", express.static(path.join(__dirname, "public/css")));
-app.use("/js", express.static(path.join(__dirname, "public/js")));
-app.use(express.static(path.join(__dirname, "public")));
-
-// Session configuration
-
-app.use(
-  session({
-    secret: "your_secret_key",
-    resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl, touchAfter: 24 * 3600 }),
-    cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-    },
-  })
-);
-
-// Passport configuration
+// Passport Configuration
 app.use(passport.initialize());
 app.use(passport.session());
 
-const LocalStrategy = require("passport-local").Strategy;
-
-// Custom strategy: login via username OR email
-passport.use(
-  new LocalStrategy(async (username, password, done) => {
-    try {
-      const user = await User.findOne({
-        $or: [{ username }, { email: username }],
-      });
-
-      if (!user) return done(null, false, { message: "User not found" });
-
-      const authenticatedUser = await user.authenticate(password);
-      if (!authenticatedUser.user)
-        return done(null, false, { message: "Invalid password" });
-
-      return done(null, user);
-    } catch (err) {
-      return done(err);
+// CRITICAL: Configure passport to accept email OR username
+passport.use(new LocalStrategy({
+  usernameField: 'username',
+  passwordField: 'password'
+}, async (username, password, done) => {
+  try {
+    // Try to find user by email OR username
+    const user = await User.findOne({
+      $or: [{ email: username }, { username: username }]
+    });
+    
+    if (!user) {
+      return done(null, false, { message: 'Incorrect username or email' });
     }
-  })
-);
+    
+    // Verify password using passport-local-mongoose method
+    user.authenticate(password, (err, authenticated) => {
+      if (err) return done(err);
+      if (!authenticated) {
+        return done(null, false, { message: 'Incorrect password' });
+      }
+      return done(null, user);
+    });
+  } catch (err) {
+    return done(err);
+  }
+}));
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// Flash message locals ( FIX HERE)
-
+// Global Variables for Views
 app.use((req, res, next) => {
-  res.locals.currentUser = req.user || null;
-  res.locals.success_msg = req.flash("success") || [];
-  res.locals.error_msg = req.flash("error") || [];
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  res.locals.user = req.user;
   next();
 });
 
 // Routes
 app.use("/", authRoutes);
+app.use("/api", itemRoutes);
 
-// 404 handler
-
+// 404 Handler
 app.use((req, res) => {
-  res.status(404).send("Page not found");
+  res.status(404).send("404 - Page Not Found");
 });
 
-// Error handler
-
+// Error Handler
 app.use((err, req, res, next) => {
-  console.error(" Server error:", err);
-  res.status(500).send(`<h1>Something went wrong!</h1><pre>${err.stack}</pre>`);
+  console.error(err.stack);
+  res.status(500).send("Something went wrong!");
 });
 
-// Start server
-
-app.listen(PORT, () =>
-  console.log(` Server running on http://localhost:${PORT}`)
-);
+// Start Server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(` Server running on http://localhost:${PORT}`);
+});

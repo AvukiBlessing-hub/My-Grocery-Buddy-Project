@@ -1,51 +1,23 @@
-// Global Variables
 let items = [];
 let currentFilter = 'all';
 let editingId = null;
-let currentUser = null;
 
 // Initialize Dashboard
 document.addEventListener('DOMContentLoaded', () => {
-    checkAuth();
     loadItems();
 });
-
-// Check if user is authenticated
-function checkAuth() {
-    const token = localStorage.getItem('token');
-    const username = localStorage.getItem('username');
-    
-    if (!token) {
-        window.location.href = 'login.html';
-        return;
-    }
-    
-    currentUser = username;
-    document.getElementById('username').textContent = username;
-}
-
-// Logout
-function logout() {
-    if (confirm('Are you sure you want to logout?')) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('username');
-        window.location.href = 'login.html';
-    }
-}
 
 // Load Items from Backend
 async function loadItems() {
     try {
-        const response = await fetch('http://localhost:3000/api/items', {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
-        });
+        const response = await fetch('/api/items');
         
         if (response.ok) {
             items = await response.json();
             renderItems();
             updateStats();
+        } else if (response.status === 401) {
+            window.location.href = '/login';
         } else {
             showMessage('Failed to load items', 'error');
         }
@@ -166,31 +138,75 @@ function resetForm() {
     clearFormErrors();
 }
 
+// Clear Form Errors
+function clearFormErrors() {
+    document.getElementById('nameError').textContent = '';
+    document.getElementById('categoryError').textContent = '';
+    document.getElementById('priceError').textContent = '';
+    document.getElementById('quantityError').textContent = '';
+    
+    document.getElementById('itemName').classList.remove('error');
+    document.getElementById('category').classList.remove('error');
+    document.getElementById('price').classList.remove('error');
+    document.getElementById('quantity').classList.remove('error');
+}
+
+// Validate Form
+function validateForm(name, category, price, quantity) {
+    let isValid = true;
+    clearFormErrors();
+    
+    if (!name || name.length < 2) {
+        document.getElementById('nameError').textContent = 'Item name must be at least 2 characters';
+        document.getElementById('itemName').classList.add('error');
+        isValid = false;
+    }
+    
+    if (!category) {
+        document.getElementById('categoryError').textContent = 'Please select a category';
+        document.getElementById('category').classList.add('error');
+        isValid = false;
+    }
+    
+    if (!price || price <= 0) {
+        document.getElementById('priceError').textContent = 'Price must be greater than 0';
+        document.getElementById('price').classList.add('error');
+        isValid = false;
+    }
+    
+    if (!quantity || quantity <= 0) {
+        document.getElementById('quantityError').textContent = 'Quantity must be greater than 0';
+        document.getElementById('quantity').classList.add('error');
+        isValid = false;
+    }
+    
+    return isValid;
+}
+
 // Save Item (Add or Update)
 async function saveItem() {
-    // Get form values
     const name = document.getElementById('itemName').value.trim();
     const category = document.getElementById('category').value;
     const price = document.getElementById('price').value;
     const quantity = document.getElementById('quantity').value;
     
-    // Validate
     if (!validateForm(name, category, price, quantity)) {
         return;
     }
     
-    const itemData = { name, category, price: Number(price), quantity: Number(quantity) };
+    const itemData = { 
+        name, 
+        category, 
+        price: Number(price), 
+        quantity: Number(quantity) 
+    };
     
     try {
         let response;
         if (editingId) {
-            // Update existing item
-            response = await fetch(`http://localhost:3000/api/items/${editingId}`, {
+            response = await fetch(`/api/items/${editingId}`, {
                 method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(itemData)
             });
             
@@ -198,13 +214,9 @@ async function saveItem() {
                 showMessage('Item updated successfully!', 'success');
             }
         } else {
-            // Add new item
-            response = await fetch('http://localhost:3000/api/items', {
+            response = await fetch('/api/items', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(itemData)
             });
             
@@ -217,7 +229,8 @@ async function saveItem() {
             await loadItems();
             cancelForm();
         } else {
-            showMessage('Failed to save item', 'error');
+            const data = await response.json();
+            showMessage(data.message || 'Failed to save item', 'error');
         }
     } catch (error) {
         console.error('Error saving item:', error);
@@ -247,11 +260,8 @@ async function deleteItem(id) {
     }
     
     try {
-        const response = await fetch(`http://localhost:3000/api/items/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
+        const response = await fetch(`/api/items/${id}`, {
+            method: 'DELETE'
         });
         
         if (response.ok) {
@@ -269,11 +279,8 @@ async function deleteItem(id) {
 // Toggle Status
 async function toggleStatus(id) {
     try {
-        const response = await fetch(`http://localhost:3000/api/items/${id}/toggle`, {
-            method: 'PATCH',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
+        const response = await fetch(`/api/items/${id}/toggle`, {
+            method: 'PATCH'
         });
         
         if (response.ok) {
@@ -291,11 +298,17 @@ async function toggleStatus(id) {
 function filterItems(filter) {
     currentFilter = filter;
     
-    // Update button states
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.classList.remove('active');
     });
-    document.getElementById(`filter${filter.charAt(0).toUpperCase() + filter.slice(1)}`).classList.add('active');
+    
+    if (filter === 'all') {
+        document.getElementById('filterAll').classList.add('active');
+    } else if (filter === 'active') {
+        document.getElementById('filterActive').classList.add('active');
+    } else if (filter === 'completed') {
+        document.getElementById('filterCompleted').classList.add('active');
+    }
     
     renderItems();
 }
@@ -314,11 +327,8 @@ async function clearCompleted() {
     }
     
     try {
-        const response = await fetch('http://localhost:3000/api/items/clear-completed', {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
+        const response = await fetch('/api/items/clear-completed', {
+            method: 'DELETE'
         });
         
         if (response.ok) {
@@ -345,21 +355,42 @@ async function clearAll() {
     }
     
     try {
-        const response = await fetch('http://localhost:3000/api/items/clear-all', {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
+        const response = await fetch('/api/items/clear-all', {
+            method: 'DELETE'
         });
         
         if (response.ok) {
             showMessage('All items cleared!', 'success');
             await loadItems();
         } else {
-            showMessage('Failed to clear items', 'error');   // <-- FIXED LINE
+            showMessage('Failed to clear all items', 'error');
         }
     } catch (error) {
         console.error('Error clearing all items:', error);
         showMessage('Error clearing items', 'error');
     }
+}
+
+// Logout
+function logout() {
+    if (confirm('Are you sure you want to logout?')) {
+        window.location.href = '/logout';
+    }
+}
+
+// Show Message
+function showMessage(message, type) {
+    const container = document.getElementById('messageContainer');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${type}`;
+    messageDiv.innerHTML = `
+        <span>${message}</span>
+        <button onclick="this.parentElement.remove()" style="background: none; border: none; color: white; cursor: pointer; font-size: 18px;">×</button>
+    `;
+    
+    container.appendChild(messageDiv);
+    
+    setTimeout(() => {
+        messageDiv.remove();
+    }, 3000);
 }
