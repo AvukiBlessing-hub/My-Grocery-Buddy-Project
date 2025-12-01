@@ -394,3 +394,41 @@ function showMessage(message, type) {
         messageDiv.remove();
     }, 3000);
 }
+function searchItems() {
+  const input = document.getElementById("searchInput").value.toLowerCase();
+  const rows = document.querySelectorAll("#tableBody tr");
+
+  rows.forEach(row => {
+    const itemName = row.querySelector("td:nth-child(2)").textContent.toLowerCase();
+    const category = row.querySelector("td:nth-child(3)").textContent.toLowerCase();
+
+    if (itemName.includes(input) || category.includes(input)) {
+      row.style.display = "";
+    } else {
+      row.style.display = "none";
+    }
+  });
+}
+
+function searchItems() {
+  const input = document.getElementById("searchInput").value.toLowerCase();
+  const tableBody = document.getElementById("tableBody");
+  const rows = tableBody.getElementsByTagName("tr");
+
+  for (let i = 0; i < rows.length; i++) {
+    const itemName = rows[i].querySelector("td:nth-child(2)");
+    const category = rows[i].querySelector("td:nth-child(3)");
+
+    if (itemName && category) {
+      const nameText = itemName.textContent.toLowerCase();
+      const categoryText = category.textContent.toLowerCase();
+
+      if (nameText.includes(input) || categoryText.includes(input)) {
+        rows[i].style.display = "";
+      } else {
+        rows[i].style.display = "none";
+      }
+    }
+  }
+}
+

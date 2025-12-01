@@ -478,3 +478,23 @@ background: red
         padding: 10px 5px;
     }
 }
+/* Search Bar */
+.search-bar {
+  margin: 15px 0;
+  text-align: right; /* aligns the search input to the right */
+}
+
+#searchInput {
+  width: 250px; /* adjust width as needed */
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+#searchInput:focus {
+  outline: none;
+  border-color: #007bff; /* blue border on focus */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}

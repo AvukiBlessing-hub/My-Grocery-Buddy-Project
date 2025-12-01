@@ -5,11 +5,11 @@ html(lang="en")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     title Dashboard - My Grocery Buddy
     link(rel="stylesheet", href="/css/dashboard.css")
-    //  Font Awesome for icons 
+    // Font Awesome for icons
     link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css")
-  
+
   body
-    //  Header 
+    // Header
     header.dashboard-header
       .container
         .header-content
@@ -18,13 +18,13 @@ html(lang="en")
           .user-info
             span#username= user ? user.username : 'User'
             button.btn-logout(onclick="logout()") Logout
-    
-    //  Success/Error Messages 
+
+    // Success/Error Messages
     #messageContainer
-    
+
     main.dashboard-main
       .container
-        //  Statistics Cards 
+        // Statistics Cards
         .stats-grid
           .stat-card.stat-total
             .stat-content
@@ -41,20 +41,20 @@ html(lang="en")
               .stat-info
                 p.stat-label Completed
                 h2.stat-value#completedItems 0
-        
-        //  Main Content Grid 
+
+        // Main Content Grid
         .content-grid
-          //  Form Section 
+          // Form Section
           .form-section#formSection
             .card
               h2#formTitle Add New Item
               .form-container
                 .form-group
-                  label(for="itemName") Item Name 
+                  label(for="itemName") Item Name
                   input#itemName(type="text", placeholder="")
                   span.error-message#nameError
                 .form-group
-                  label(for="category") Category 
+                  label(for="category") Category
                   select#category
                     option(value="") Select category
                     option(value="Produce") Produce
@@ -68,21 +68,21 @@ html(lang="en")
                     option(value="Other") Other
                   span.error-message#categoryError
                 .form-group
-                  label(for="price") Price (UGX) 
+                  label(for="price") Price (UGX)
                   input#price(type="number", placeholder="")
                   span.error-message#priceError
                 .form-group
-                  label(for="quantity") Quantity 
+                  label(for="quantity") Quantity
                   input#quantity(type="number", placeholder="")
                   span.error-message#quantityError
                 .form-actions
                   button.btn.btn-save(onclick="saveItem()") SAVE
                   button.btn.btn-cancel(onclick="cancelForm()") CANCEL
-          
-          //  Table Section 
+
+          // Table Section
           .table-section
             .card
-              //  Controls 
+              // Controls
               .controls
                 .filters
                   button.btn.btn-warning.active#filterAll(onclick="filterItems('all')") All Items
@@ -94,8 +94,12 @@ html(lang="en")
                     |  Add Item
                   button.btn.btn-warning(onclick="clearCompleted()") Clear Completed
                   button.btn.btn-danger(onclick="clearAll()") Clear All
-              
-              //  Table 
+
+              // Search Bar
+              .search-bar
+                input#searchInput(type="text", placeholder="Search by name or category...", onkeyup="searchItems()")
+
+              // Table
               .table-container
                 table#itemsTable
                   thead
@@ -107,8 +111,9 @@ html(lang="en")
                       th QUANTITY
                       th ACTIONS
                   tbody#tableBody
-                    //  Items will be inserted here dynamically 
-    
+                    // Items will be inserted here dynamically
+
+    // Scripts
     script(src="/js/api.js")
     script(src="/js/validation.js")
     script(src="/js/dashboard.js")
