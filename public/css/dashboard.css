@@ -493,7 +493,7 @@ background: red
   transition: all 0.3s ease;
 }
 
-#searchInput:focus {
+#searchInput:focus { 
   outline: none;
   border-color: #007bff; /* blue border on focus */
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
